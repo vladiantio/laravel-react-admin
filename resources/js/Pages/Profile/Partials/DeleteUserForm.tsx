@@ -1,124 +1,134 @@
-import DangerButton from '@/components/DangerButton';
-import InputError from '@/components/InputError';
-import InputLabel from '@/components/InputLabel';
-import Modal from '@/components/Modal';
-import SecondaryButton from '@/components/SecondaryButton';
-import TextInput from '@/components/TextInput';
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useForm } from '@inertiajs/react';
-import { FormEventHandler, useRef, useState } from 'react';
+import {
+  FormEventHandler,
+  useRef,
+  useState
+} from 'react';
 
-export default function DeleteUserForm({
-    className = '',
-}: {
-    className?: string;
-}) {
-    const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
-    const passwordInput = useRef<HTMLInputElement>(null);
+export default function DeleteUserForm() {
+  const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
+  const passwordInput = useRef<HTMLInputElement>(null);
 
-    const {
-        data,
-        setData,
-        delete: destroy,
-        processing,
-        reset,
-        errors,
-        clearErrors,
-    } = useForm({
-        password: '',
+  const {
+    data,
+    setData,
+    delete: destroy,
+    processing,
+    reset,
+    errors,
+    clearErrors,
+  } = useForm({
+    password: '',
+  });
+
+  const deleteUser: FormEventHandler = (e) => {
+    e.preventDefault();
+
+    destroy(route('profile.destroy'), {
+      preserveScroll: true,
+      onSuccess: () => closeModal(),
+      onError: () => passwordInput.current?.focus(),
+      onFinish: () => reset(),
     });
+  };
 
-    const confirmUserDeletion = () => {
-        setConfirmingUserDeletion(true);
-    };
+  const closeModal = () => {
+    setConfirmingUserDeletion(false);
 
-    const deleteUser: FormEventHandler = (e) => {
-        e.preventDefault();
+    clearErrors();
+    reset();
+  };
 
-        destroy(route('profile.destroy'), {
-            preserveScroll: true,
-            onSuccess: () => closeModal(),
-            onError: () => passwordInput.current?.focus(),
-            onFinish: () => reset(),
-        });
-    };
+  return (
+    <Card className="border-destructive-light shadow-destructive-light/20">
+      <CardHeader>
+        <CardTitle>
+          Delete Account
+        </CardTitle>
 
-    const closeModal = () => {
-        setConfirmingUserDeletion(false);
+        <CardDescription>
+          Once your account is deleted, all of its resources and data
+          will be permanently deleted. Before deleting your account,
+          please download any data or information that you wish to
+          retain.
+        </CardDescription>
+      </CardHeader>
 
-        clearErrors();
-        reset();
-    };
+      <CardContent>
+        <AlertDialog open={confirmingUserDeletion} onOpenChange={setConfirmingUserDeletion}>
+          <AlertDialogTrigger asChild>
+            <Button variant="destructive">
+              Delete Account
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className="sm:max-w-[425px]">
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Are you sure you want to delete your account?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Once your account is deleted, all of its resources and
+                data will be permanently deleted. Please enter your
+                password to confirm you would like to permanently delete
+                your account.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <form id="deleteAccount" onSubmit={deleteUser}>
+              <Label
+                htmlFor="password"
+                className="sr-only"
+              >
+                Password
+              </Label>
 
-    return (
-        <section className={`space-y-6 ${className}`}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Delete Account
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Once your account is deleted, all of its resources and data
-                    will be permanently deleted. Before deleting your account,
-                    please download any data or information that you wish to
-                    retain.
-                </p>
-            </header>
-
-            <DangerButton onClick={confirmUserDeletion}>
+              <Input
+                id="password"
+                type="password"
+                name="password"
+                ref={passwordInput}
+                value={data.password}
+                onChange={(e) =>
+                  setData('password', e.target.value)
+                }
+                autoFocus
+                placeholder="Password"
+                error={errors.password}
+              />
+            </form>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <Button
+                form="deleteAccount"
+                disabled={processing}
+                variant="destructive"
+                type="submit"
+              >
                 Delete Account
-            </DangerButton>
-
-            <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                <form onSubmit={deleteUser} className="p-6">
-                    <h2 className="text-lg font-medium text-gray-900">
-                        Are you sure you want to delete your account?
-                    </h2>
-
-                    <p className="mt-1 text-sm text-gray-600">
-                        Once your account is deleted, all of its resources and
-                        data will be permanently deleted. Please enter your
-                        password to confirm you would like to permanently delete
-                        your account.
-                    </p>
-
-                    <div className="mt-6">
-                        <InputLabel
-                            htmlFor="password"
-                            value="Password"
-                            className="sr-only"
-                        />
-
-                        <TextInput
-                            id="password"
-                            type="password"
-                            name="password"
-                            ref={passwordInput}
-                            value={data.password}
-                            onChange={(e) =>
-                                setData('password', e.target.value)
-                            }
-                            className="mt-1 block w-3/4"
-                            isFocused
-                            placeholder="Password"
-                        />
-
-                        <InputError
-                            message={errors.password}
-                            className="mt-2"
-                        />
-                    </div>
-
-                    <div className="mt-6 flex justify-end">
-                        <SecondaryButton onClick={closeModal}>
-                            Cancel
-                        </SecondaryButton>
-
-                        <DangerButton className="ms-3" disabled={processing}>
-                            Delete Account
-                        </DangerButton>
-                    </div>
-                </form>
-            </Modal>
-        </section>
-    );
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </CardContent>
+    </Card>
+  );
 }
