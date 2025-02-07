@@ -57,8 +57,10 @@ const TableRow = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tr
     ref={ref}
+    role={props.onClick ? 'button' : undefined}
     className={cn(
-      "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
+      "border-b transition-colors data-[state=selected]:bg-muted",
+      props.onClick && 'hover:bg-muted/50',
       className
     )}
     {...props}
