@@ -19,7 +19,6 @@ export default function AppCrudExample() {
       <DataTable
         data={tasks}
         columns={columns}
-        paging={false}
         toolbarOptions={{ filters }}
       />
     </div>
