@@ -1,19 +1,11 @@
 import { Link, usePage } from "@inertiajs/react"
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
-import { LayoutDashboard } from "lucide-react"
 import ApplicationLogo from "./ApplicationLogo"
 import { NavUser } from "./NavUser"
+import { sidebarMenu } from "@/configs/sidebar-menu"
 
 export default function AppSidebar() {
   const user = usePage().props.auth.user
-
-  const items = [
-    {
-      icon: LayoutDashboard,
-      name: 'dashboard',
-      title: 'Dashboard',
-    },
-  ]
 
   return (
     <Sidebar collapsible="icon">
@@ -33,7 +25,7 @@ export default function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item,i) => (
+              {sidebarMenu.map((item,i) => (
                 <SidebarMenuItem key={i}>
                   <SidebarMenuButton asChild isActive={route().current(item.name)} tooltip={item.title}>
                     <Link href={route(item.name)}>
