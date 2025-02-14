@@ -12,7 +12,7 @@ export default function Authenticated({
             <AppSidebar />
             <SidebarInset>
                 <AppHeader header={header} />
-                <main>{children}</main>
+                <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 w-full">{children}</main>
             </SidebarInset>
         </SidebarProvider>
     );

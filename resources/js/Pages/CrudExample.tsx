@@ -7,9 +7,7 @@ export default function CrudExample() {
     <AuthenticatedLayout header="CRUD Example">
       <Head title="CRUD Example" />
 
-        <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <AppCrudExample />
-        </div>
+      <AppCrudExample />
     </AuthenticatedLayout>
   );
 }

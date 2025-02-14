@@ -15,7 +15,7 @@ export default function AppCrudExample() {
   const tasks = getTasks()
 
   return (
-    <div className="py-4">
+    <div>
       <DataTable
         data={tasks}
         columns={columns}
