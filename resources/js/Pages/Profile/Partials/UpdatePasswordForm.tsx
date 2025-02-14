@@ -1,11 +1,4 @@
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from '@inertiajs/react';
@@ -50,79 +43,75 @@ export default function UpdatePasswordForm() {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>
-          Update Password
-        </CardTitle>
+    <div>
+      <h2 className="font-semibold leading-none tracking-tight">
+        Update Password
+      </h2>
 
-        <CardDescription>
-          Ensure your account is using a long, random password to stay
-          secure.
-        </CardDescription>
-      </CardHeader>
+      <p className="text-sm text-muted-foreground mb-3">
+        Ensure your account is using a long, random password to stay
+        secure.
+      </p>
 
-      <CardContent>
-        <form onSubmit={updatePassword} className="space-y-6">
-          <div>
-            <Label htmlFor="current_password">Current Password</Label>
+      <form onSubmit={updatePassword} className="space-y-3">
+        <div>
+          <Label htmlFor="current_password">Current Password</Label>
 
-            <Input
-              id="current_password"
-              ref={currentPasswordInput}
-              value={data.current_password}
-              onChange={(e) =>
-                setData('current_password', e.target.value)
-              }
-              type="password"
-              className="mt-1"
-              autoComplete="current-password"
-              error={errors.current_password}
-            />
-          </div>
+          <Input
+            id="current_password"
+            ref={currentPasswordInput}
+            value={data.current_password}
+            onChange={(e) =>
+              setData('current_password', e.target.value)
+            }
+            type="password"
+            className="mt-1"
+            autoComplete="current-password"
+            error={errors.current_password}
+          />
+        </div>
 
-          <div>
-            <Label htmlFor="password">New Password</Label>
+        <div>
+          <Label htmlFor="password">New Password</Label>
 
-            <Input
-              id="password"
-              ref={passwordInput}
-              value={data.password}
-              onChange={(e) => setData('password', e.target.value)}
-              type="password"
-              className="mt-1"
-              autoComplete="new-password"
-              error={errors.password}
-            />
-          </div>
+          <Input
+            id="password"
+            ref={passwordInput}
+            value={data.password}
+            onChange={(e) => setData('password', e.target.value)}
+            type="password"
+            className="mt-1"
+            autoComplete="new-password"
+            error={errors.password}
+          />
+        </div>
 
-          <div>
-            <Label htmlFor="password_confirmation">Confirm Password</Label>
+        <div>
+          <Label htmlFor="password_confirmation">Confirm Password</Label>
 
-            <Input
-              id="password_confirmation"
-              value={data.password_confirmation}
-              onChange={(e) =>
-                setData('password_confirmation', e.target.value)
-              }
-              type="password"
-              className="mt-1"
-              autoComplete="new-password"
-              error={errors.password_confirmation}
-            />
-          </div>
+          <Input
+            id="password_confirmation"
+            value={data.password_confirmation}
+            onChange={(e) =>
+              setData('password_confirmation', e.target.value)
+            }
+            type="password"
+            className="mt-1"
+            autoComplete="new-password"
+            error={errors.password_confirmation}
+          />
+        </div>
 
-          <div className="flex items-center gap-4">
-            <Button disabled={processing}>Save</Button>
+        <div className="flex items-center gap-4">
+          <Button disabled={processing}>Save</Button>
 
-            {recentlySuccessful && (
-              <p className="text-sm text-gray-600">
-                Saved.
-              </p>
-            )}
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+          {recentlySuccessful && (
+            <p className="text-sm text-gray-600">
+              Saved.
+            </p>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }

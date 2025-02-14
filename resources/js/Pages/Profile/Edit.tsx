@@ -13,8 +13,8 @@ export default function Edit({
     <AuthenticatedLayout header="Profile">
       <Head title="Profile" />
 
-      <div className="py-12">
-        <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+      <div className="py-8">
+        <div className="mx-auto max-w-7xl space-y-12 sm:px-6 lg:px-8">
           <UpdateProfileInformationForm
             mustVerifyEmail={mustVerifyEmail}
             status={status}
